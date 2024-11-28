@@ -42,8 +42,8 @@ export default function DashboardLayout() {
         bg={"gray.contrast"}
         zIndex={10}
         flexBasis={"260px"}
-        width={{ base: isAsideOpen ? "300px" : "0", lg: "0px" }}
-        overflowX={{base: "hidden", lg: "visible"}}
+        width={isAsideOpen ? "300px" : "0"}
+        overflowX={{ base: "hidden", lg: "visible" }}
         position={{ base: "fixed", lg: "relative" }}
         transition={"width ease-in-out 200ms"}
       >
@@ -51,7 +51,7 @@ export default function DashboardLayout() {
           <Heading
             size={"3xl"}
             fontWeight={"extrabold"}
-            // color={"cyan.500"}
+            color={"blue.500"}
             paddingX={KAsidePadding}
             display={"flex"}
             justifyContent={"start"}
@@ -70,7 +70,7 @@ export default function DashboardLayout() {
                       paddingX={KAsidePadding}
                       paddingY={4}
                       gapX={2}
-                      textDecorationColor={"cyan.500"}
+                      textDecorationColor={"blue.500"}
                       textDecorationThickness={2}
                       textDecorationStyle={"wavy"}
                       textUnderlineOffset={4}
@@ -101,7 +101,7 @@ export default function DashboardLayout() {
       <Box flexGrow={1}>
         <Flex
           height={"72px"}
-        //   borderBottomWidth={KBorderWidth}
+          borderBottomWidth={KBorderWidth}
           alignItems={"center"}
           justifyContent={"space-between"}
           position={"sticky"}
@@ -120,7 +120,7 @@ export default function DashboardLayout() {
             <LuMenu size={KIconSize} strokeWidth={KStrokeWidth} />
           </IconButton>
         </Flex>
-        <Box height={1000} paddingX={4} paddingY={4}>
+        <Box paddingX={4} paddingY={4}>
           <Outlet />
         </Box>
       </Box>
