@@ -1,8 +1,10 @@
-import { Box, Heading, Image, Tabs } from "@chakra-ui/react";
+import { Box, Link, Tabs, Textarea } from "@chakra-ui/react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark as dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Prose } from "../../components/ui/prose";
+import remarkGfm from "remark-gfm";
 
 const mdPath =
   "https://raw.githubusercontent.com/sannlynnhtun-coding/csharp-course/refs/heads/main/README.md";
@@ -36,23 +38,23 @@ Self Study
 - [x] [C# Examples](https://github.com/sannlynnhtun-coding/csharp-examples)
 `;
 
-export default function Notes() {
+export default function ViewNotePage() {
   const [md, setMd] = useState(mdText);
 
   function MarkdownPreview() {
     return (
-      <Box>
+      <Prose overflow={"auto"}>
         <ReactMarkdown
-          children={md}
+          remarkPlugins={[[remarkGfm]]}
           components={{
-            h1({ children }) {
+            pre({ children, ...props }) {
               return (
-                <Heading textStyle={"2xl"} fontWeight={"bold"}>
+                <pre style={{ padding: "0px" }} {...props}>
                   {children}
-                </Heading>
+                </pre>
               );
             },
-            code({ node, inline, className, children, ...props }) {
+            code({ inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || "");
               return !inline && match ? (
                 <SyntaxHighlighter
@@ -69,35 +71,55 @@ export default function Notes() {
               );
             },
             ul({ children, ...props }) {
-              return <Box>{children}</Box>;
+              return (
+                <ul style={{ overflow: "auto" }} {...props}>
+                  {children}
+                </ul>
+              );
             },
-            img({ src }) {
-              return <Image src={src} />;
+            a({ children, ...props }) {
+              return (
+                <Link color={"blue.500"} {...props}>
+                  {children}
+                </Link>
+              );
             },
           }}
-        />
-      </Box>
+        >
+          {md}
+        </ReactMarkdown>
+      </Prose>
     );
   }
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await fetch(mdPath);
-  //     const text = await res.text();
-  //     console.log({ text });
-  //     setMd(text);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    // (async () => {
+    //   const res = await fetch(mdPath);
+    //   const text = await res.text();
+    //   setMd(text);
+    // })();
+  }, []);
 
   return (
     <Box>
-      <Tabs.Root defaultValue={"preview"} w={"fit-content"}>
+      <Tabs.Root
+        defaultValue={"preview"}
+        w={"auto"}
+        position={"sticky"}
+        top={0}
+      >
         <Tabs.List>
-          <Tabs.Trigger value="code">Code</Tabs.Trigger>
           <Tabs.Trigger value="preview">Preview</Tabs.Trigger>
+          <Tabs.Trigger value="code">Code</Tabs.Trigger>
         </Tabs.List>
-        <Tabs.Content value="code"></Tabs.Content>
-        <Tabs.Content value="preview">
+        <Tabs.Content value="code">
+          <Textarea
+            h={"calc(100vh - 180px)"}
+            value={md}
+            onChange={(e) => setMd(e.target.value)}
+          />
+        </Tabs.Content>
+        <Tabs.Content value="preview" display={"grid"}>
           <MarkdownPreview />
         </Tabs.Content>
       </Tabs.Root>

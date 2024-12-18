@@ -40,12 +40,12 @@ export default function DashboardLayout() {
       <Box
         borderRightWidth={{ base: 1, lg: KBorderWidth }}
         bg={"gray.contrast"}
-        zIndex={10}
         flexBasis={"260px"}
         width={isAsideOpen ? "300px" : "0"}
         overflowX={{ base: "hidden", lg: "visible" }}
         position={{ base: "fixed", lg: "relative" }}
         transition={"width ease-in-out 200ms"}
+        zIndex={20}
       >
         <Flex flexDir={"column"} height={"dvh"} position={"sticky"} top={0}>
           <Heading
@@ -61,20 +61,23 @@ export default function DashboardLayout() {
           >
             DailyDEV
           </Heading>
-          <Flex flexDir={"column"} flexGrow={1}>
+          <Flex flexDir={"column"} flexGrow={1} gapY={2} padding={4}>
             <For each={NavLinks}>
               {(link, index) => (
                 <NavLink key={index} to={link.path}>
                   {({ isActive }) => (
                     <Flex
-                      paddingX={KAsidePadding}
+                      paddingX={4}
                       paddingY={4}
                       gapX={2}
-                      textDecorationColor={"blue.500"}
-                      textDecorationThickness={2}
-                      textDecorationStyle={"wavy"}
-                      textUnderlineOffset={4}
-                      textDecorationLine={isActive ? "underline" : "unset"}
+                      // textDecorationColor={"blue.500"}
+                      // textDecorationThickness={2}
+                      // textDecorationStyle={"wavy"}
+                      // textUnderlineOffset={4}
+                      // textDecorationLine={isActive ? "underline" : "unset"}
+                      bg={isActive ? "bg.emphasized" : "transparent"}
+                      borderRadius={"sm"}
+                      _hover={{bg: "bg.emphasized"}}
                     >
                       <link.icon size={KIconSize} strokeWidth={KStrokeWidth} />
                       <Text textStyle={"md"} fontWeight={"medium"}>
@@ -108,6 +111,7 @@ export default function DashboardLayout() {
           top={0}
           bg={{ base: "white", _dark: "black" }}
           paddingX={4}
+          zIndex={10}
         >
           <Heading textStyle={"3xl"} fontWeight={"bold"}>
             Dev Notes
